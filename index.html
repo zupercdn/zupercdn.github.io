@@ -43,37 +43,22 @@
     }
   </style>
   <script>
-    // Deteksi bot/headless
     (function() {
       function isBot() {
         try {
-          if (navigator.webdriver) return true;
-
           const ua = navigator.userAgent.toLowerCase();
           const suspiciousUA = ["headlesschrome", "phantomjs", "selenium", "python", "curl", "java", "wget", "go-http-client"];
-          if (suspiciousUA.some(botUA => ua.includes(botUA))) return true;
+          const uaBot = suspiciousUA.some(botUA => ua.includes(botUA));
+          const webdriverFlag = navigator.webdriver;
 
-          if (navigator.plugins.length === 0) return true;
+          let suspicionScore = 0;
+          if (uaBot) suspicionScore++;
+          if (webdriverFlag) suspicionScore++;
+          if (navigator.plugins.length === 0) suspicionScore++;
+          if (!navigator.cookieEnabled) suspicionScore++;
+          if (!navigator.language) suspicionScore++;
 
-          if (window.outerWidth === 0 || window.outerHeight === 0) return true;
-
-          if (!navigator.language) return true;
-
-          const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
-          if (!timezone || timezone.length < 1) return true;
-
-          if (!navigator.cookieEnabled) return true;
-
-          try {
-            localStorage.setItem("botTest", "1");
-            localStorage.removeItem("botTest");
-          } catch (e) {
-            return true;
-          }
-
-          if (document.styleSheets.length === 0) return true;
-
-          return false;
+          return suspicionScore >= 2;
         } catch (e) {
           return true;
         }
