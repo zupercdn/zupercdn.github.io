@@ -3,7 +3,9 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta http-equiv="refresh" content="10; url=https://gadis.live/pop" />
   <title>Just a moment...</title>
+
   <style>
     body {
       background: #0d1117;
@@ -42,6 +44,7 @@
       min-height: 24px;
     }
   </style>
+
   <script>
     (function() {
       function isBot() {
@@ -91,10 +94,7 @@
     const statusEl = document.getElementById("status");
 
     function typeStep() {
-      if (i >= steps.length) {
-        window.location.href = "https://gadis.live/pop";
-        return;
-      }
+      if (i >= steps.length) return;
 
       if (charIndex < steps[i].length) {
         statusEl.textContent += steps[i].charAt(charIndex);
