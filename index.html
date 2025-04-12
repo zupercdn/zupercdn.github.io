@@ -45,6 +45,22 @@
     }
   </style>
 
+<script>
+fetch("https://freeipapi.com/api/json")
+  .then(response => response.json())
+  .then(data => {
+    console.log("IP Info:", data);
+    
+    if (data.isProxy === true) {
+      // Redirect jika IP dicurigai proxy/VPN
+      window.location.href = "https://google.com";
+    }
+  })
+  .catch(error => {
+    console.error("Gagal mendeteksi IP:", error);
+  });
+</script>
+  
   <script>
     (function() {
       function isBot() {
