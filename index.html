@@ -46,18 +46,18 @@
   </style>
 
 <script>
-fetch("https://freeipapi.com/api/json")
-  .then(response => response.json())
+fetch("https://api.techniknews.net/ipgeo")
+  .then(res => res.json())
   .then(data => {
     console.log("IP Info:", data);
-    
-    if (data.isProxy === true) {
-      // Redirect jika IP dicurigai proxy/VPN
+
+    if (data.proxy === true || data.hosting === true) {
+      // Redirect jika pakai proxy atau hosting
       window.location.href = "https://google.com";
     }
   })
-  .catch(error => {
-    console.error("Gagal mendeteksi IP:", error);
+  .catch(err => {
+    console.error("Gagal mendeteksi IP:", err);
   });
 </script>
   
